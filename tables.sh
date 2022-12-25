@@ -57,6 +57,7 @@ esac
 done
 done
 awk -F : ' { printf "%s : ",$1} ' ./meta_$table >> $table
+echo " " >>$table
 ;;
 Insert_in_table ) 
 read -p "please enter the table name :" table
@@ -67,6 +68,74 @@ awk -v table=$table ' BEGIN { FS=":" }
     printf "%s : ",response >> table
     }
 END { } ' ./meta_$table
-echo "" >> $table
+echo " " >> $table
+
+;;
+Delete_table )
+read -p "please enter the table name " table
+select del in delete_record delete_all
+do
+case $del in
+delete_record )
+read -p " please enter your 
+`awk ' BEGIN { FS=":" }
+{
+   if ($3 == "pk")
+   print $1
+    }
+END { } ' ./meta_$table `" pk
+result=`grep "$pk" $table`
+sed -i "/$result/d" $table 
+break
+;;
+delete_all )
+sed -i '2,$d' $table
+break
+esac
+done
+;;
+update_table )
+read -p "please enter the table name " table
+read -p "please enter your old data " old
+read -p "please enter your new data " change
+read -p " please enter your 
+`awk ' BEGIN { FS=":" }
+{
+   if ($3 == "pk")
+   print $1
+    }
+END { } ' ./meta_$table `" pk
+grep "$pk" $table | sed -i "s/$old/$change/" $table 
+
+;;
+
+Select_from_table )
+select selection in all row column
+do
+case $selection in
+all ) 
+read -p "please enter the table name " table
+cat $table
+;;
+
+row )
+read -p "please enter the table name " table
+read -p " please enter your 
+`awk ' BEGIN { FS=":" }
+{
+   if ($3 == "pk")
+   print $1
+    }
+END { } ' ./meta_$table `" pk
+grep "$pk" $table
+
+
+
+
+
+
+
+esac
+done
 esac
 done
