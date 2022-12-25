@@ -56,6 +56,7 @@ esac
 done
 done
 awk -F : ' { printf "%s : ",$1} ' ./meta_$table >> $table
+echo " " >>$table
 ;;
 Insert_in_table ) 
 read -p "please enter the table name " table
@@ -66,6 +67,35 @@ awk -v table=$table ' BEGIN { FS=":" }
     printf "%s : ",response >> table
     }
 END { } ' ./meta_$table
-echo "" >> $table
+echo " " >> $table
+
+;;
+
+
+Select_from_table )
+select selection in all row column
+do
+case $selection in
+all ) 
+read -p "please enter the table name " table
+cat $table
+;;
+
+row )
+read -p "please enter the table name " table
+read -p " please enter your 
+`awk ' BEGIN { FS=":" }
+{
+   if ($3 == "pk")
+   print $1
+    }
+END { } ' ./meta_$table `" pk
+grep "$pk" $table
+
+
+
+
+esac
+done
 esac
 done
