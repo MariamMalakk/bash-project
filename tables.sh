@@ -1,141 +1,38 @@
 #!/bin/bash
-
+echo ">>>>>>>>>>choose an option<<<<<<<<<<<<"
 select choice in create_table List_table drop_table Insert_in_table  Select_from_table update_table Delete_table 
 do
 case $choice in
 List_table )
-ls -a 
+
+../../listtb.sh
 ;;
 drop_table )
-read -p "Enter the table name :" table_name
-if [[ -f ./$table_name ]];then
-rm $table_name
-echo "It is dropped successfully "
-else
-echo "This table doesn't exist"
-continue
-fi
+
+../../droptb.sh
+
 ;;
 create_table )
-read -p "Enter the table name :" table
-if [[ -f ./$table ]];then
-echo "This table already exists"
-continue
-else
-touch ./meta_$table
-touch ./$table
-fi
-read -p "Enter the number of columns :" columns
-for (( c=1; c<=$columns; c++ ))
-do
-read -p "please enter column name :" column_name
-echo "Is the data type int or string ?"
-select data_type in int string  
-do
-case $data_type in 
-int )
-echo $data_type
-break
-;;
-string)
-echo $data_type
-break
-esac
-done
-echo "Is this your primary key?"
-select is_pk in yes no  
-do
-case $is_pk in 
-yes )
-echo "$column_name:$data_type:"pk"" >> ./meta_$table
-break
-;;
-no )
-echo "$column_name:$data_type:" "" >>./meta_$table
-break
-esac
-done
-done
-awk -F : ' { printf "%s : ",$1} ' ./meta_$table >> $table
-echo " " >>$table
+../../createtb.sh
+
 ;;
 Insert_in_table ) 
-read -p "please enter the table name :" table
-awk -v table=$table ' BEGIN { FS=":" }
-{
-    printf"please enter your "$1
-    getline response < "-"
-    printf "%s : ",response >> table
-    }
-END { } ' ./meta_$table
-echo " " >> $table
+
+../../insert.sh
 
 ;;
 Delete_table )
-read -p "please enter the table name " table
-select del in delete_record delete_all
-do
-case $del in
-delete_record )
-read -p " please enter your 
-`awk ' BEGIN { FS=":" }
-{
-   if ($3 == "pk")
-   print $1
-    }
-END { } ' ./meta_$table `" pk
-result=`grep "$pk" $table`
-sed -i "/$result/d" $table 
-break
-;;
-delete_all )
-sed -i '2,$d' $table
-break
-esac
-done
+
+../../delete.sh
 ;;
 update_table )
-read -p "please enter the table name " table
-read -p "please enter your old data " old
-read -p "please enter your new data " change
-read -p " please enter your 
-`awk ' BEGIN { FS=":" }
-{
-   if ($3 == "pk")
-   print $1
-    }
-END { } ' ./meta_$table `" pk
-grep "$pk" $table | sed -i "s/$old/$change/" $table 
 
+../../update.sh
 ;;
 
 Select_from_table )
-select selection in all row column
-do
-case $selection in
-all ) 
-read -p "please enter the table name " table
-cat $table
-;;
 
-row )
-read -p "please enter the table name " table
-read -p " please enter your 
-`awk ' BEGIN { FS=":" }
-{
-   if ($3 == "pk")
-   print $1
-    }
-END { } ' ./meta_$table `" pk
-grep "$pk" $table
+../../select.sh
 
-
-
-
-
-
-
-esac
-done
 esac
 done
