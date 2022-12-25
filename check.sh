@@ -1,12 +1,10 @@
+#!/bin/bash
 echo "<<<Your database engine, please select>>>"
 select choice in create_database List_databases drop_database connect exit
 do
-
-
 case $choice in
-
 "create_database" )
-while true:
+while :
 do
 read -p "enter your database name: " dirname
 if [[ -d ./databases/$dirname ]]; then
@@ -31,28 +29,35 @@ done
 
 ;;
 "List_databases" )
+ls -F ./databases
 
-ls -d ./databases
 ./check.sh
+
 ;;
 
 "drop_database" )
 read -p "enter the name of database to drop: " x
 rm -r ./databases/$x
 echo "'$x' is dropped successfully"
- ./check.sh
+
+./check.sh
+
 ;;
 
 "connect" )
+while :
+do
 read -p "enter the name of database to connect: " z
 if [[ -d ./databases/$z ]]; then
 cd ./databases/$z
 echo you are connected to $z
-./table.sh
+
+../../tables.sh
 else
 echo not found
-break
+continue
 fi
+done
 ;;
 
 "exit" )
