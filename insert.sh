@@ -9,6 +9,11 @@ awk -v table=$table ' BEGIN { FS=":" }
 {
     printf"please enter your "$1 ":"
     getline response < "-"
+    if ($3=="pk"){
+        if (response==""){
+            print "invalid primary key" 
+            exit }
+    }
     printf "%s : ",response >> table
     }
 END { } ' ./meta_$table

@@ -19,3 +19,4 @@ sed -i '2,$d' $table
 break
 esac
 done
+../../tables.sh

@@ -17,6 +17,7 @@ continue
 else
 touch ./meta_$table
 touch ./$table
+break
 fi
 ;;
 *)
@@ -35,7 +36,6 @@ case $data_type in
 int )
 echo $data_type
 break
-
 ;;
 string)
 echo $data_type
