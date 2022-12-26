@@ -26,6 +26,8 @@ esac
 done
 
 read -p "Enter the number of columns :" columns
+case $columns in
++([1-9]) )
 for (( c=1; c<=$columns; c++ ))
 do
 read -p "please enter column name :" column_name
@@ -53,6 +55,7 @@ break
 no )
 echo "$column_name:$data_type:" "" >>./meta_$table
  break
+;;
 
 esac
 done
@@ -60,4 +63,11 @@ done
 
 awk -F : ' { printf "%s : ",$1} ' ./meta_$table >> $table
 echo " " >>$table
+;;
+* )
+echo "please enter a number , It's going to be an empty table"
+../../createtb.sh
+esac
+
+
  ../../tables.sh

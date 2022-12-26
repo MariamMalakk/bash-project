@@ -43,7 +43,13 @@ done
 ;;
 
 column )
+while :
+do
 read -p "please enter table name :" table
+if [[ ! -f ./$table ]]; then
+echo "table doesn't exist"
+continue
+else
 awk -F : '{print $1}' ./meta_$table
 read -p "please enter column name from the list : " column
 result=`awk -v column=$column ' BEGIN { FS=":" }
@@ -56,6 +62,8 @@ result=`awk -v column=$column ' BEGIN { FS=":" }
 END { } ' ./meta_$table`
 
 cut -d : -f${result} ./$table
+fi
+done
 
 ../../select.sh
 

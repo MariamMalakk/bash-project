@@ -1,6 +1,6 @@
 #!/bin/bash
 echo ">>>>>>>>>>choose an option<<<<<<<<<<<<"
-select choice in create_table List_table drop_table Insert_in_table  Select_from_table update_table Delete_table 
+select choice in create_table List_table drop_table Insert_in_table  Select_from_table update_table Delete_table exit
 do
 case $choice in
 List_table )
@@ -33,6 +33,8 @@ update_table )
 Select_from_table )
 
 ../../select.sh
-
+;;
+exit )
+../../check.sh
 esac
 done
