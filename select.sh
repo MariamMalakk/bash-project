@@ -63,6 +63,7 @@ END { } ' ./meta_$table`
 
 cut -d : -f${result} ./$table
 fi
+break
 done
 
 ../../select.sh
